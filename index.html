@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina by Nanscia | Capturing Light & Soul</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <span class="loader-letter" style="--i:0">L</span>
+                <span class="loader-letter" style="--i:1">u</span>
+                <span class="loader-letter" style="--i:2">m</span>
+                <span class="loader-letter" style="--i:3">i</span>
+                <span class="loader-letter" style="--i:4">n</span>
+                <span class="loader-letter" style="--i:5">a</span>
+            </div>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
+            <span class="loader-tagline">Capturing Light & Soul</span>
+        </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <a href="#home" class="nav-logo">
+            <span class="logo-text">Lumina</span>
+            <span class="logo-sub">by Nanscia</span>
+        </a>
+        <div class="nav-menu" id="nav-menu">
+            <a href="#home" class="nav-link active" data-text="Home">Home</a>
+            <a href="#portfolio" class="nav-link" data-text="Portfolio">Portfolio</a>
+            <a href="#about" class="nav-link" data-text="About">About</a>
+            <a href="#services" class="nav-link" data-text="Services">Services</a>
+            <a href="#contact" class="nav-link" data-text="Contact">Contact</a>
+        </div>
+        <button class="nav-toggle" id="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-bg"></div>
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-link">Home</a>
+            <a href="#portfolio" class="mobile-link">Portfolio</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-gradient-1"></div>
+            <div class="hero-gradient-2"></div>
+            <div class="hero-gradient-3"></div>
+            <div class="hero-noise"></div>
+        </div>
+
+        <!-- Floating decorative elements -->
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-intro-wrapper">
+                    <span class="hero-intro">Welcome to the world of</span>
+                    <div class="hero-intro-line"></div>
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="title-line">
+                        <span class="title-word" data-text="Lumina">Lumina</span>
+                    </span>
+                    <span class="title-line title-sub">
+                        <span class="title-accent">by Nanscia</span>
+                    </span>
+                </h1>
+
+                <div class="hero-tagline-wrapper">
+                    <p class="hero-tagline">
+                        <span class="tagline-word">Capturing</span>
+                        <span class="tagline-word">moments</span>
+                        <span class="tagline-word">that</span>
+                        <span class="tagline-word highlight">last</span>
+                        <span class="tagline-word highlight">forever</span>
+                    </p>
+                </div>
+
+                <p class="hero-description">
+                    Where light meets artistry. Every frame tells a story,<br>
+                    every shot captures the essence of your soul.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#portfolio" class="btn btn-primary magnetic">
+                        <span class="btn-text">View Portfolio</span>
+                        <span class="btn-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                        <span class="btn-bg"></span>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary magnetic">
+                        <span class="btn-text">Book a Session</span>
+                        <span class="btn-shine"></span>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-num" data-count="500">0</span>
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-num" data-count="8">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-num" data-count="50">0</span>
+                        <span class="stat-label">Awards Won</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-stack">
+                    <div class="hero-img hero-img-1">
+                        <div class="img-inner" style="background: linear-gradient(135deg, #d4af37 0%, #c9a87c 100%);"></div>
+                    </div>
+                    <div class="hero-img hero-img-2">
+                        <div class="img-inner" style="background: linear-gradient(135deg, #8b7355 0%, #c9a87c 100%);"></div>
+                    </div>
+                    <div class="hero-img hero-img-3">
+                        <div class="img-inner" style="background: linear-gradient(135deg, #2d2d2d 0%, #4a4a4a 100%);"></div>
+                    </div>
+                </div>
+                <div class="hero-badge">
+                    <span class="badge-text">Featured</span>
+                    <span class="badge-year">2024</span>
+                </div>
+                <div class="hero-circle-text">
+                    <svg viewBox="0 0 100 100">
+                        <path id="circlePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+                        <text>
+                            <textPath href="#circlePath">PHOTOGRAPHY  ARTISTRY  STORYTELLING  </textPath>
+                        </text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+
+        <div class="hero-marquee">
+            <div class="marquee-track">
+                <span>PORTRAIT</span>
+                <span class="marquee-dot"></span>
+                <span>WEDDING</span>
+                <span class="marquee-dot"></span>
+                <span>LIFESTYLE</span>
+                <span class="marquee-dot"></span>
+                <span>NATURE</span>
+                <span class="marquee-dot"></span>
+                <span>PORTRAIT</span>
+                <span class="marquee-dot"></span>
+                <span>WEDDING</span>
+                <span class="marquee-dot"></span>
+                <span>LIFESTYLE</span>
+                <span class="marquee-dot"></span>
+                <span>NATURE</span>
+                <span class="marquee-dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="section-header reveal">
+            <span class="section-number">01</span>
+            <span class="section-tag">Portfolio</span>
+            <h2 class="section-title split-text">Selected Works</h2>
+            <p class="section-subtitle">A curated collection of moments frozen in time</p>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="portfolio-filters reveal">
+            <button class="filter-btn active" data-filter="all">
+                <span>All Works</span>
+            </button>
+            <button class="filter-btn" data-filter="portrait">
+                <span>Portrait</span>
+            </button>
+            <button class="filter-btn" data-filter="nature">
+                <span>Nature</span>
+            </button>
+            <button class="filter-btn" data-filter="wedding">
+                <span>Wedding</span>
+            </button>
+            <button class="filter-btn" data-filter="lifestyle">
+                <span>Lifestyle</span>
+            </button>
+        </div>
+
+        <div class="portfolio-grid">
+            <div class="portfolio-item reveal-item" data-category="portrait">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Portrait</span>
+                            <h3 class="portfolio-title">Golden Hour</h3>
+                            <p class="portfolio-desc">Capturing souls in golden light</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">01</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item tall reveal-item" data-category="wedding">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Wedding</span>
+                            <h3 class="portfolio-title">Eternal Love</h3>
+                            <p class="portfolio-desc">Where two hearts become one</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">02</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item reveal-item" data-category="nature">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Nature</span>
+                            <h3 class="portfolio-title">Morning Dew</h3>
+                            <p class="portfolio-desc">Nature's delicate whispers</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">03</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item wide reveal-item" data-category="lifestyle">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Lifestyle</span>
+                            <h3 class="portfolio-title">Urban Stories</h3>
+                            <p class="portfolio-desc">Life in the city pulse</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">04</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item reveal-item" data-category="portrait">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Portrait</span>
+                            <h3 class="portfolio-title">Soft Light</h3>
+                            <p class="portfolio-desc">Gentle moments, soft emotions</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">05</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item tall reveal-item" data-category="nature">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Nature</span>
+                            <h3 class="portfolio-title">Misty Mountains</h3>
+                            <p class="portfolio-desc">Where dreams touch the clouds</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">06</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item reveal-item" data-category="wedding">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Wedding</span>
+                            <h3 class="portfolio-title">First Dance</h3>
+                            <p class="portfolio-desc">The beginning of forever</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">07</div>
+                </div>
+            </div>
+
+            <div class="portfolio-item wide reveal-item" data-category="lifestyle">
+                <div class="portfolio-image" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <span class="portfolio-category">Lifestyle</span>
+                            <h3 class="portfolio-title">Coffee Culture</h3>
+                            <p class="portfolio-desc">Finding beauty in the everyday</p>
+                            <button class="portfolio-btn">
+                                <span>View Project</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-number">08</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-bg">
+            <div class="about-pattern"></div>
+        </div>
+
+        <div class="about-container">
+            <div class="about-image reveal">
+                <div class="about-img-wrapper">
+                    <div class="about-img" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <div class="about-img-overlay"></div>
+                </div>
+                <div class="about-frame"></div>
+                <div class="about-dots"></div>
+
+                <div class="about-experience">
+                    <div class="exp-inner">
+                        <span class="exp-number">8<sup>+</sup></span>
+                        <span class="exp-text">Years of<br>Excellence</span>
+                    </div>
+                </div>
+
+                <div class="about-float-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Award Winner</span>
+                </div>
+            </div>
+
+            <div class="about-content reveal">
+                <span class="section-number">02</span>
+                <span class="section-tag">About Me</span>
+                <h2 class="about-title">
+                    Hello, I'm<br>
+                    <span class="highlight-name">Nanscia</span>
+                </h2>
+
+                <p class="about-lead">A passionate photographer dedicated to transforming fleeting moments into timeless art.</p>
+
+                <p class="about-text">Photography isn't just my profession - it's my way of seeing the extraordinary in the ordinary. Every click of the shutter is an opportunity to freeze time, to preserve emotions, and to create art that speaks to the heart.</p>
+
+                <p class="about-text">Based in South Africa but always ready for adventure, I specialize in portrait, wedding, and lifestyle photography. My style blends natural light with artistic composition to create images that are both timeless and contemporary.</p>
+
+                <div class="about-signature">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cpath d='M10 45 Q30 20 50 35 T90 30 Q110 25 130 40 T170 35' stroke='%238b7355' fill='none' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" alt="Signature">
+                </div>
+
+                <div class="about-cta">
+                    <a href="#contact" class="btn btn-primary magnetic">
+                        <span class="btn-text">Let's Work Together</span>
+                        <span class="btn-bg"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Marquee -->
+        <div class="skills-marquee">
+            <div class="skills-track">
+                <span>Portrait Photography</span>
+                <span class="skill-dot"></span>
+                <span>Wedding Coverage</span>
+                <span class="skill-dot"></span>
+                <span>Lifestyle Shoots</span>
+                <span class="skill-dot"></span>
+                <span>Nature & Landscape</span>
+                <span class="skill-dot"></span>
+                <span>Product Photography</span>
+                <span class="skill-dot"></span>
+                <span>Event Coverage</span>
+                <span class="skill-dot"></span>
+                <span>Portrait Photography</span>
+                <span class="skill-dot"></span>
+                <span>Wedding Coverage</span>
+                <span class="skill-dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header reveal">
+            <span class="section-number">03</span>
+            <span class="section-tag">Services</span>
+            <h2 class="section-title">What I Offer</h2>
+            <p class="section-subtitle">Professional photography services tailored to capture your unique story</p>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card reveal-item" data-tilt>
+                <div class="service-bg"></div>
+                <div class="service-content">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M20 21a8 8 0 10-16 0"/>
+                        </svg>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="service-title">Portrait Photography</h3>
+                    <p class="service-desc">Stunning individual and family portraits that capture your unique personality and essence.</p>
+                    <div class="service-features">
+                        <span>2-3 Hour Session</span>
+                        <span>50+ Edited Photos</span>
+                        <span>Online Gallery</span>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">From R2,499</span>
+                        <a href="#contact" class="service-link">
+                            Book Now
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="service-number">01</div>
+            </div>
+
+            <div class="service-card featured reveal-item" data-tilt>
+                <div class="service-badge">Most Popular</div>
+                <div class="service-bg"></div>
+                <div class="service-content">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                        </svg>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="service-title">Wedding Photography</h3>
+                    <p class="service-desc">Capture every magical moment of your special day with artistic and emotional imagery.</p>
+                    <div class="service-features">
+                        <span>Full Day Coverage</span>
+                        <span>300+ Edited Photos</span>
+                        <span>Premium Album</span>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">From R12,999</span>
+                        <a href="#contact" class="service-link">
+                            Book Now
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="service-number">02</div>
+            </div>
+
+            <div class="service-card reveal-item" data-tilt>
+                <div class="service-bg"></div>
+                <div class="service-content">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M14.5 4h-5L7 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2h-3l-2.5-3z"/>
+                            <circle cx="12" cy="13" r="3"/>
+                        </svg>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="service-title">Event Coverage</h3>
+                    <p class="service-desc">Professional coverage of corporate events, parties, and special occasions.</p>
+                    <div class="service-features">
+                        <span>Flexible Hours</span>
+                        <span>100+ Photos</span>
+                        <span>Quick Delivery</span>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">From R3,999</span>
+                        <a href="#contact" class="service-link">
+                            Book Now
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="service-number">03</div>
+            </div>
+
+            <div class="service-card reveal-item" data-tilt>
+                <div class="service-bg"></div>
+                <div class="service-content">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <path d="M21 15l-5-5L5 21"/>
+                        </svg>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="service-title">Product Photography</h3>
+                    <p class="service-desc">High-quality product images that make your brand stand out and sell.</p>
+                    <div class="service-features">
+                        <span>Studio Setup</span>
+                        <span>Multiple Angles</span>
+                        <span>E-commerce Ready</span>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">From R1,499</span>
+                        <a href="#contact" class="service-link">
+                            Book Now
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="service-number">04</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="testimonials-bg">
+            <div class="testimonials-pattern"></div>
+        </div>
+
+        <div class="section-header reveal">
+            <span class="section-number">04</span>
+            <span class="section-tag">Testimonials</span>
+            <h2 class="section-title">Client Stories</h2>
+            <p class="section-subtitle">Words from those who trusted me with their precious moments</p>
+        </div>
+
+        <div class="testimonials-slider">
+            <div class="testimonial-track" id="testimonial-track">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-stars">
+                            <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                        </div>
+                        <p class="testimonial-text">Nanscia captured our wedding day perfectly. Every photo tells a story, and looking at them takes us right back to that magical day. Her eye for detail and ability to capture genuine emotions is truly remarkable!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <div class="avatar-inner" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                            </div>
+                            <div class="author-info">
+                                <span class="author-name">Sarah & Michael</span>
+                                <span class="author-title">Wedding Clients</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-stars">
+                            <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                        </div>
+                        <p class="testimonial-text">The best portrait session I've ever had. Nanscia made me feel so comfortable, and the results exceeded all my expectations. She has this incredible ability to bring out the best in everyone. Pure artistry!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <div class="avatar-inner" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                            </div>
+                            <div class="author-info">
+                                <span class="author-name">Emma Rodriguez</span>
+                                <span class="author-title">Portrait Client</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-stars">
+                            <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                        </div>
+                        <p class="testimonial-text">Working with Lumina was an absolute pleasure. Professional, creative, and delivered stunning images for our product line. Our sales increased by 40% after using her photos. Highly recommend!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <div class="avatar-inner" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                            </div>
+                            <div class="author-info">
+                                <span class="author-name">David Chen</span>
+                                <span class="author-title">Business Owner</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-controls">
+                <button class="testimonial-btn prev" id="prev-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                <div class="testimonial-dots" id="testimonial-dots"></div>
+                <button class="testimonial-btn next" id="next-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-bg">
+            <div class="contact-gradient"></div>
+            <div class="contact-pattern"></div>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info reveal">
+                <span class="section-number light">05</span>
+                <span class="section-tag light">Contact</span>
+                <h2 class="contact-title">Let's Create<br><span>Magic Together</span></h2>
+                <p class="contact-desc">Ready to capture your special moments? Get in touch and let's discuss how we can bring your vision to life.</p>
+
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="contact-label">Phone</span>
+                            <a href="tel:0832387169" class="contact-value">083 238 7169</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <path d="M22 6l-10 7L2 6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:hello@vertomedia.co.za" class="contact-value">hello@vertomedia.co.za</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="contact-label">Location</span>
+                            <span class="contact-value">South Africa & Worldwide</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-link magnetic" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link magnetic" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link magnetic" aria-label="Pinterest">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4c0 2.5-2 4-3.5 4-.8 0-1.2-.6-1-1.3l.8-3.2"/>
+                            <path d="M9 21l1.5-6"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link magnetic" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <form class="contact-form reveal" id="contact-form">
+                <div class="form-header">
+                    <h3>Send a Message</h3>
+                    <p>Fill out the form and I'll get back to you within 24 hours.</p>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Your Name</label>
+                        <span class="form-line"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Email Address</label>
+                        <span class="form-line"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <select id="service" name="service" required>
+                        <option value="" disabled selected></option>
+                        <option value="portrait">Portrait Photography</option>
+                        <option value="wedding">Wedding Photography</option>
+                        <option value="event">Event Coverage</option>
+                        <option value="product">Product Photography</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <label for="service">Service Interested In</label>
+                    <span class="form-line"></span>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                    <label for="message">Your Message</label>
+                    <span class="form-line"></span>
+                </div>
+
+                <button type="submit" class="btn btn-submit magnetic">
+                    <span class="btn-text">Send Message</span>
+                    <span class="btn-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13"/>
+                            <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </span>
+                    <span class="btn-loading">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="60">
+                                <animate attributeName="stroke-dashoffset" dur="1s" values="60;0" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </span>
+                    <span class="btn-bg"></span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-cta reveal">
+                <h2>Ready to capture your story?</h2>
+                <a href="#contact" class="btn btn-primary magnetic">
+                    <span class="btn-text">Get in Touch</span>
+                    <span class="btn-bg"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-logo">Lumina</span>
+                <span class="footer-tagline">by Nanscia</span>
+                <p class="footer-desc">Capturing life's beautiful moments, one frame at a time. Based in South Africa, available worldwide.</p>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <a href="#services">Portraits</a>
+                    <a href="#services">Weddings</a>
+                    <a href="#services">Events</a>
+                    <a href="#services">Products</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <a href="tel:0832387169">083 238 7169</a>
+                    <a href="mailto:hello@vertomedia.co.za">hello@vertomedia.co.za</a>
+                    <span>South Africa</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Lumina by Nanscia. All rights reserved.</p>
+            <p>Crafted with love and light</p>
+        </div>
+
+        <div class="back-to-top" id="back-to-top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 15l-6-6-6 6"/>
+            </svg>
+        </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
