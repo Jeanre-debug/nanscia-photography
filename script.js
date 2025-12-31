@@ -3,23 +3,45 @@
    Jaw-Dropping Photography Portfolio
    ================================ */
 
-// Firebase imports for loading photos
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-// Firebase config
-const firebaseConfig = {
-    apiKey: "AIzaSyCCHo0qahUmgRkFiP0D7FGudfwMMXwLdtg",
-    authDomain: "nanscia-photo.firebaseapp.com",
-    projectId: "nanscia-photo",
-    storageBucket: "nanscia-photo.firebasestorage.app",
-    messagingSenderId: "772881862866",
-    appId: "1:772881862866:web:b60d85ab9cb02ce33fdd0b"
+// LocalStorage keys
+const STORAGE_KEYS = {
+    PHOTOS: 'lumina_photos',
+    CATEGORIES: 'lumina_categories'
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Helper functions to load from localStorage
+function getPhotosFromStorage() {
+    try {
+        const photosJSON = localStorage.getItem(STORAGE_KEYS.PHOTOS);
+        if (!photosJSON) return [];
+
+        const photos = JSON.parse(photosJSON);
+        return photos.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } catch (error) {
+        console.error('Error loading photos:', error);
+        return [];
+    }
+}
+
+function getCategoriesFromStorage() {
+    try {
+        const categoriesJSON = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
+        if (!categoriesJSON) return [
+            { id: 'portrait', name: 'Portrait' },
+            { id: 'wedding', name: 'Wedding' },
+            { id: 'nature', name: 'Nature' },
+            { id: 'lifestyle', name: 'Lifestyle' }
+        ];
+        return JSON.parse(categoriesJSON);
+    } catch (error) {
+        return [
+            { id: 'portrait', name: 'Portrait' },
+            { id: 'wedding', name: 'Wedding' },
+            { id: 'nature', name: 'Nature' },
+            { id: 'lifestyle', name: 'Lifestyle' }
+        ];
+    }
+}
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -266,20 +288,14 @@ function animateCounter(element, target, duration) {
 }
 
 /* ================================
-   LOAD PORTFOLIO PHOTOS FROM FIREBASE
+   LOAD PORTFOLIO PHOTOS FROM LOCALSTORAGE
    ================================ */
 async function loadPortfolioPhotos() {
     const portfolioGrid = document.querySelector('.portfolio-grid');
     if (!portfolioGrid) return;
 
     try {
-        const q = query(collection(db, 'photos'), orderBy('createdAt', 'desc'));
-        const querySnapshot = await getDocs(q);
-
-        const photos = [];
-        querySnapshot.forEach((doc) => {
-            photos.push({ id: doc.id, ...doc.data() });
-        });
+        const photos = getPhotosFromStorage();
 
         if (photos.length === 0) {
             initScrollAnimations();
@@ -293,7 +309,7 @@ async function loadPortfolioPhotos() {
             item.className = `portfolio-item ${photo.size === 'tall' ? 'tall' : ''} ${photo.size === 'wide' ? 'wide' : ''} reveal-item`;
             item.dataset.category = photo.category;
 
-            const imageUrl = photo.imageUrl || photo.dataUrl;
+            const imageUrl = photo.imageUrl;
             const number = String(index + 1).padStart(2, '0');
 
             item.innerHTML = `
@@ -326,14 +342,14 @@ async function loadPortfolioPhotos() {
         });
 
         // Update filter buttons
-        await updateFilterButtons(photos);
+        updateFilterButtons(photos);
 
         // Re-initialize animations
         initScrollAnimations();
         initPortfolioFilter();
 
     } catch (error) {
-        console.log('No photos in Firebase yet:', error);
+        console.log('Error loading photos:', error);
         initScrollAnimations();
     }
 }
@@ -342,30 +358,12 @@ function capitalizeFirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function updateFilterButtons(photos) {
+function updateFilterButtons(photos) {
     const filtersContainer = document.querySelector('.portfolio-filters');
     if (!filtersContainer) return;
 
     const photoCategories = [...new Set(photos.map(p => p.category))];
-
-    let allCategories = [
-        { id: 'portrait', name: 'Portrait' },
-        { id: 'wedding', name: 'Wedding' },
-        { id: 'nature', name: 'Nature' },
-        { id: 'lifestyle', name: 'Lifestyle' }
-    ];
-
-    try {
-        const catSnapshot = await getDocs(collection(db, 'categories'));
-        if (!catSnapshot.empty) {
-            allCategories = [];
-            catSnapshot.forEach((doc) => {
-                allCategories.push(doc.data());
-            });
-        }
-    } catch (e) {
-        // Use defaults
-    }
+    const allCategories = getCategoriesFromStorage();
 
     filtersContainer.innerHTML = '<button class="filter-btn active" data-filter="all"><span>All Works</span></button>';
 
