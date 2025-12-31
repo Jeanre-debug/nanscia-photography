@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLogin();
     initNavigation();
     initUpload();
+    initHeroImages();
     initModals();
     initSettings();
 });
@@ -632,6 +633,122 @@ function initSettings() {
             }
         }
     });
+}
+
+/* ================================
+   HERO IMAGES
+   ================================ */
+function initHeroImages() {
+    const heroFileInputs = document.querySelectorAll('.hero-file-input');
+
+    // Load existing hero images
+    loadHeroImages();
+
+    // Handle file selection
+    heroFileInputs.forEach(input => {
+        input.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const slot = input.dataset.slot;
+
+            // Validate file
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select an image file', 'error');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('Image too large (max 10MB)', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                // Upload to Cloudinary
+                const cloudinaryData = await uploadToCloudinary(file, 'lumina-hero');
+
+                // Save to localStorage
+                const heroImages = getHeroImages();
+                heroImages[`slot${slot}`] = {
+                    url: cloudinaryData.url,
+                    publicId: cloudinaryData.publicId,
+                    slot: slot
+                };
+
+                localStorage.setItem('lumina_hero_images', JSON.stringify(heroImages));
+
+                // Update UI
+                displayHeroImage(slot, cloudinaryData.url);
+
+                showToast('Hero image uploaded!', 'success');
+            } catch (error) {
+                console.error('Error uploading hero image:', error);
+                showToast('Error uploading image', 'error');
+            }
+
+            showLoading(false);
+            input.value = ''; // Reset input
+        });
+    });
+}
+
+function getHeroImages() {
+    try {
+        const heroJSON = localStorage.getItem('lumina_hero_images');
+        return heroJSON ? JSON.parse(heroJSON) : {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function loadHeroImages() {
+    const heroImages = getHeroImages();
+
+    Object.keys(heroImages).forEach(key => {
+        const image = heroImages[key];
+        displayHeroImage(image.slot, image.url);
+    });
+}
+
+function displayHeroImage(slot, url) {
+    const slotElement = document.getElementById(`hero-slot-${slot}`);
+    if (!slotElement) return;
+
+    slotElement.classList.add('has-image');
+    slotElement.style.backgroundImage = `url('${url}')`;
+
+    // Remove existing remove button if any
+    const existingBtn = slotElement.querySelector('.hero-remove-btn');
+    if (existingBtn) existingBtn.remove();
+
+    // Add remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'hero-remove-btn';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.addEventListener('click', () => removeHeroImage(slot));
+
+    slotElement.appendChild(removeBtn);
+}
+
+function removeHeroImage(slot) {
+    if (!confirm('Remove this hero image?')) return;
+
+    const heroImages = getHeroImages();
+    delete heroImages[`slot${slot}`];
+    localStorage.setItem('lumina_hero_images', JSON.stringify(heroImages));
+
+    const slotElement = document.getElementById(`hero-slot-${slot}`);
+    if (slotElement) {
+        slotElement.classList.remove('has-image');
+        slotElement.style.backgroundImage = '';
+
+        const removeBtn = slotElement.querySelector('.hero-remove-btn');
+        if (removeBtn) removeBtn.remove();
+    }
+
+    showToast('Hero image removed', 'success');
 }
 
 /* ================================

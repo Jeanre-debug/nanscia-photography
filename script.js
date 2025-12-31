@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initParticles();
     initNavigation();
     initHeroAnimations();
+    loadHeroImages();
     loadPortfolioPhotos();
     initScrollAnimations();
     initPortfolioFilter();
@@ -285,6 +286,48 @@ function animateCounter(element, target, duration) {
     };
 
     updateCounter();
+}
+
+/* ================================
+   LOAD HERO IMAGES FROM LOCALSTORAGE
+   ================================ */
+function loadHeroImages() {
+    try {
+        const heroJSON = localStorage.getItem('lumina_hero_images');
+        if (!heroJSON) return;
+
+        const heroImages = JSON.parse(heroJSON);
+
+        // Update hero image elements
+        if (heroImages.slot1) {
+            const img1 = document.querySelector('.hero-img-1 .img-inner');
+            if (img1) {
+                img1.style.backgroundImage = `url('${heroImages.slot1.url}')`;
+                img1.style.backgroundSize = 'cover';
+                img1.style.backgroundPosition = 'center';
+            }
+        }
+
+        if (heroImages.slot2) {
+            const img2 = document.querySelector('.hero-img-2 .img-inner');
+            if (img2) {
+                img2.style.backgroundImage = `url('${heroImages.slot2.url}')`;
+                img2.style.backgroundSize = 'cover';
+                img2.style.backgroundPosition = 'center';
+            }
+        }
+
+        if (heroImages.slot3) {
+            const img3 = document.querySelector('.hero-img-3 .img-inner');
+            if (img3) {
+                img3.style.backgroundImage = `url('${heroImages.slot3.url}')`;
+                img3.style.backgroundSize = 'cover';
+                img3.style.backgroundPosition = 'center';
+            }
+        }
+    } catch (error) {
+        console.error('Error loading hero images:', error);
+    }
 }
 
 /* ================================
