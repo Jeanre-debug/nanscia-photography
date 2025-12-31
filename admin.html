@@ -19,10 +19,13 @@
             </div>
             <form class="login-form" id="login-form">
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Enter Password" required>
+                    <input type="email" id="email" placeholder="Email" required>
                 </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <p class="login-error" id="login-error"></p>
                 <button type="submit" class="btn btn-primary">Access Dashboard</button>
-                <p class="login-hint">Default password: lumina2024</p>
             </form>
         </div>
     </div>
@@ -193,35 +196,22 @@
                 </div>
 
                 <div class="settings-card">
-                    <h3>Change Password</h3>
-                    <form id="password-form">
-                        <div class="form-group">
-                            <label for="current-password">Current Password</label>
-                            <input type="password" id="current-password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="new-password">New Password</label>
-                            <input type="password" id="new-password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm New Password</label>
-                            <input type="password" id="confirm-password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update Password</button>
-                    </form>
+                    <h3>Account</h3>
+                    <p>Logged in as: <strong id="user-email">-</strong></p>
+                    <button class="btn btn-secondary" id="reset-password-btn">Send Password Reset Email</button>
                 </div>
 
                 <div class="settings-card info">
                     <h3>Storage Info</h3>
-                    <p>Photos are stored securely in Firebase Cloud Storage.</p>
+                    <p>Photos are stored securely in Cloudinary Cloud Storage with automatic optimization.</p>
                     <div class="storage-info">
                         <div class="storage-item">
                             <span class="storage-label">Total Photos:</span>
                             <span class="storage-value" id="total-photos">0</span>
                         </div>
                         <div class="storage-item">
-                            <span class="storage-label">Storage Used:</span>
-                            <span class="storage-value" id="storage-used">Calculating...</span>
+                            <span class="storage-label">Free Tier:</span>
+                            <span class="storage-value">25GB</span>
                         </div>
                     </div>
                 </div>
@@ -248,7 +238,7 @@
                 </div>
                 <form id="edit-form">
                     <input type="hidden" id="edit-photo-id">
-                    <input type="hidden" id="edit-storage-path">
+                    <input type="hidden" id="edit-public-id">
                     <div class="form-group">
                         <label for="edit-title">Title</label>
                         <input type="text" id="edit-title" required>

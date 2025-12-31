@@ -111,6 +111,14 @@ body {
     color: var(--color-gray);
 }
 
+.login-error {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-danger);
+    margin-bottom: 15px;
+    min-height: 1.2em;
+}
+
 /* ================================
    BUTTONS
    ================================ */

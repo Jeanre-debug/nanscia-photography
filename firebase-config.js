@@ -4,11 +4,11 @@
    ================================ */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { uploadToCloudinary, deleteFromCloudinary } from './cloudinary-config.js';
+import * as LocalStorage from './local-storage.js';
 
-// Firebase configuration
+// Firebase configuration (Auth only - no Firestore needed!)
 const firebaseConfig = {
     apiKey: "AIzaSyCCHo0qahUmgRkFiP0D7FGudfwMMXwLdtg",
     authDomain: "nanscia-photo.firebaseapp.com",
@@ -18,64 +18,46 @@ const firebaseConfig = {
     appId: "1:772881862866:web:b60d85ab9cb02ce33fdd0b"
 };
 
-// Initialize Firebase
+// Initialize Firebase (Auth only)
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
 const auth = getAuth(app);
-
-// Collections
-const PHOTOS_COLLECTION = 'photos';
-const CATEGORIES_COLLECTION = 'categories';
 
 /* ================================
    PHOTO OPERATIONS
+   Using Cloudinary for images + localStorage for metadata
    ================================ */
 
-// Upload photo to Firebase Storage and save metadata to Firestore
+// Upload photo to Cloudinary and save metadata to localStorage
 export async function uploadPhoto(file, title, category, size = 'normal') {
     try {
-        // Create unique filename
-        const timestamp = Date.now();
-        const filename = `photos/${timestamp}_${file.name}`;
+        // Upload to Cloudinary
+        const cloudinaryData = await uploadToCloudinary(file, 'lumina-photos');
 
-        // Upload to Storage
-        const storageRef = ref(storage, filename);
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        // Save metadata to Firestore
+        // Save metadata to localStorage
         const photoData = {
             title,
             category,
             size,
-            imageUrl: downloadURL,
-            storagePath: filename,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            imageUrl: cloudinaryData.url,
+            publicId: cloudinaryData.publicId,
+            width: cloudinaryData.width,
+            height: cloudinaryData.height,
+            format: cloudinaryData.format,
+            bytes: cloudinaryData.bytes
         };
 
-        const docRef = await addDoc(collection(db, PHOTOS_COLLECTION), photoData);
-
-        return { id: docRef.id, ...photoData };
+        const savedPhoto = LocalStorage.savePhoto(photoData);
+        return savedPhoto;
     } catch (error) {
         console.error('Error uploading photo:', error);
         throw error;
     }
 }
 
-// Get all photos from Firestore
+// Get all photos from localStorage
 export async function getPhotos() {
     try {
-        const q = query(collection(db, PHOTOS_COLLECTION), orderBy('createdAt', 'desc'));
-        const querySnapshot = await getDocs(q);
-
-        const photos = [];
-        querySnapshot.forEach((doc) => {
-            photos.push({ id: doc.id, ...doc.data() });
-        });
-
-        return photos;
+        return LocalStorage.getPhotos();
     } catch (error) {
         console.error('Error getting photos:', error);
         throw error;
@@ -85,29 +67,23 @@ export async function getPhotos() {
 // Update photo metadata
 export async function updatePhoto(photoId, updates) {
     try {
-        const photoRef = doc(db, PHOTOS_COLLECTION, photoId);
-        await updateDoc(photoRef, {
-            ...updates,
-            updatedAt: new Date().toISOString()
-        });
-        return true;
+        return LocalStorage.updatePhoto(photoId, updates);
     } catch (error) {
         console.error('Error updating photo:', error);
         throw error;
     }
 }
 
-// Delete photo from Storage and Firestore
-export async function deletePhoto(photoId, storagePath) {
+// Delete photo from Cloudinary and localStorage
+export async function deletePhoto(photoId, publicId) {
     try {
-        // Delete from Storage
-        if (storagePath) {
-            const storageRef = ref(storage, storagePath);
-            await deleteObject(storageRef);
+        // Delete from Cloudinary (optional - see cloudinary-config.js notes)
+        if (publicId) {
+            await deleteFromCloudinary(publicId);
         }
 
-        // Delete from Firestore
-        await deleteDoc(doc(db, PHOTOS_COLLECTION, photoId));
+        // Delete from localStorage
+        LocalStorage.deletePhoto(photoId);
 
         return true;
     } catch (error) {
@@ -122,7 +98,7 @@ export async function deleteAllPhotos() {
         const photos = await getPhotos();
 
         for (const photo of photos) {
-            await deletePhoto(photo.id, photo.storagePath);
+            await deletePhoto(photo.id, photo.publicId);
         }
 
         return true;
@@ -134,60 +110,28 @@ export async function deleteAllPhotos() {
 
 /* ================================
    CATEGORY OPERATIONS
+   Using localStorage
    ================================ */
 
-// Default categories
-const DEFAULT_CATEGORIES = [
-    { id: 'portrait', name: 'Portrait' },
-    { id: 'wedding', name: 'Wedding' },
-    { id: 'nature', name: 'Nature' },
-    { id: 'lifestyle', name: 'Lifestyle' }
-];
-
-// Initialize categories if they don't exist
+// Initialize categories
 export async function initCategories() {
-    try {
-        const querySnapshot = await getDocs(collection(db, CATEGORIES_COLLECTION));
-
-        if (querySnapshot.empty) {
-            // Add default categories
-            for (const cat of DEFAULT_CATEGORIES) {
-                await addDoc(collection(db, CATEGORIES_COLLECTION), cat);
-            }
-        }
-    } catch (error) {
-        console.error('Error initializing categories:', error);
-    }
+    return LocalStorage.initCategories();
 }
 
 // Get all categories
 export async function getCategories() {
     try {
-        const querySnapshot = await getDocs(collection(db, CATEGORIES_COLLECTION));
-
-        const categories = [];
-        querySnapshot.forEach((doc) => {
-            categories.push({ docId: doc.id, ...doc.data() });
-        });
-
-        // If empty, return defaults
-        if (categories.length === 0) {
-            return DEFAULT_CATEGORIES;
-        }
-
-        return categories;
+        return LocalStorage.getCategories();
     } catch (error) {
         console.error('Error getting categories:', error);
-        return DEFAULT_CATEGORIES;
+        return [];
     }
 }
 
 // Add category
 export async function addCategory(name) {
     try {
-        const id = name.toLowerCase().replace(/\s+/g, '-');
-        const docRef = await addDoc(collection(db, CATEGORIES_COLLECTION), { id, name });
-        return { docId: docRef.id, id, name };
+        return LocalStorage.addCategory(name);
     } catch (error) {
         console.error('Error adding category:', error);
         throw error;
@@ -195,10 +139,9 @@ export async function addCategory(name) {
 }
 
 // Delete category
-export async function deleteCategoryFromDB(docId) {
+export async function deleteCategoryFromDB(categoryId) {
     try {
-        await deleteDoc(doc(db, CATEGORIES_COLLECTION, docId));
-        return true;
+        return LocalStorage.deleteCategory(categoryId);
     } catch (error) {
         console.error('Error deleting category:', error);
         throw error;
@@ -206,7 +149,8 @@ export async function deleteCategoryFromDB(docId) {
 }
 
 /* ================================
-   AUTHENTICATION (Optional)
+   AUTHENTICATION
+   Using Firebase Auth
    ================================ */
 
 // Sign in with email/password
@@ -236,5 +180,5 @@ export function onAuthChange(callback) {
     return onAuthStateChanged(auth, callback);
 }
 
-// Export instances for direct use if needed
-export { db, storage, auth };
+// Export auth instance for direct use if needed
+export { auth };

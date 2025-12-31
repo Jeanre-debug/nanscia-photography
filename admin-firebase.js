@@ -11,27 +11,21 @@ import {
     getCategories,
     addCategory,
     deleteCategoryFromDB,
-    initCategories
+    initCategories,
+    auth
 } from './firebase-config.js';
 
-// Storage Keys (for password - keep local)
-const STORAGE_KEYS = {
-    PASSWORD: 'lumina_password',
-    LOGGED_IN: 'lumina_logged_in'
-};
-
-// Default password
-const DEFAULT_PASSWORD = 'lumina2024';
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // State
 let photos = [];
 let categories = [];
 let pendingUploads = [];
+let currentUser = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    initStorage();
-    checkAuth();
+    initAuth();
     initLogin();
     initNavigation();
     initUpload();
@@ -40,54 +34,68 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ================================
-   STORAGE INITIALIZATION
-   ================================ */
-function initStorage() {
-    // Initialize password if not set (local storage for simple auth)
-    if (!localStorage.getItem(STORAGE_KEYS.PASSWORD)) {
-        localStorage.setItem(STORAGE_KEYS.PASSWORD, DEFAULT_PASSWORD);
-    }
-}
-
-/* ================================
    AUTHENTICATION
    ================================ */
-function checkAuth() {
-    const isLoggedIn = sessionStorage.getItem(STORAGE_KEYS.LOGGED_IN);
-
-    if (isLoggedIn === 'true') {
-        showDashboard();
-    }
+function initAuth() {
+    // Listen for auth state changes
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUser = user;
+            showDashboard();
+        } else {
+            currentUser = null;
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('admin-dashboard').classList.remove('active');
+        }
+    });
 }
 
 function initLogin() {
     const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
 
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        loginError.textContent = '';
 
+        const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const storedPassword = localStorage.getItem(STORAGE_KEYS.PASSWORD);
 
-        if (password === storedPassword) {
-            sessionStorage.setItem(STORAGE_KEYS.LOGGED_IN, 'true');
-            showDashboard();
-        } else {
-            showToast('Incorrect password', 'error');
-            document.getElementById('password').value = '';
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            // Auth state listener will handle showing dashboard
+        } catch (error) {
+            console.error('Login error:', error);
+            if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                loginError.textContent = 'Invalid email or password';
+            } else if (error.code === 'auth/too-many-requests') {
+                loginError.textContent = 'Too many attempts. Please try again later.';
+            } else {
+                loginError.textContent = 'Login failed. Please try again.';
+            }
         }
     });
 
     // Logout
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        sessionStorage.removeItem(STORAGE_KEYS.LOGGED_IN);
-        location.reload();
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+            location.reload();
+        } catch (error) {
+            console.error('Logout error:', error);
+            showToast('Error logging out', 'error');
+        }
     });
 }
 
 async function showDashboard() {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('admin-dashboard').classList.add('active');
+
+    // Display user email in settings
+    if (currentUser) {
+        document.getElementById('user-email').textContent = currentUser.email;
+    }
 
     showLoading(true);
 
@@ -356,7 +364,7 @@ async function loadPhotos() {
                                 <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
                             </svg>
                         </button>
-                        <button class="photo-card-btn delete-btn" data-id="${photo.id}" data-path="${photo.storagePath}">
+                        <button class="photo-card-btn delete-btn" data-id="${photo.id}" data-public-id="${photo.publicId || ''}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M3 6h18"/>
                                 <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
@@ -382,7 +390,7 @@ async function loadPhotos() {
                 if (confirm('Are you sure you want to delete this photo?')) {
                     showLoading(true);
                     try {
-                        await deletePhoto(btn.dataset.id, btn.dataset.path);
+                        await deletePhoto(btn.dataset.id, btn.dataset.publicId);
                         showToast('Photo deleted', 'success');
                         await loadPhotos();
                     } catch (error) {
@@ -443,12 +451,12 @@ function initModals() {
     // Delete from modal
     deletePhotoBtn.addEventListener('click', async () => {
         const id = document.getElementById('edit-photo-id').value;
-        const storagePath = document.getElementById('edit-storage-path').value;
+        const publicId = document.getElementById('edit-public-id').value;
 
         if (confirm('Are you sure you want to delete this photo?')) {
             showLoading(true);
             try {
-                await deletePhoto(id, storagePath);
+                await deletePhoto(id, publicId);
                 showToast('Photo deleted', 'success');
                 editModal.classList.remove('active');
                 await loadPhotos();
@@ -509,7 +517,7 @@ function openEditModal(id) {
     if (!photo) return;
 
     document.getElementById('edit-photo-id').value = photo.id;
-    document.getElementById('edit-storage-path').value = photo.storagePath || '';
+    document.getElementById('edit-public-id').value = photo.publicId || '';
     document.getElementById('edit-preview-img').src = photo.imageUrl;
     document.getElementById('edit-title').value = photo.title;
     document.getElementById('edit-size').value = photo.size || 'normal';
@@ -546,7 +554,7 @@ async function loadCategories() {
                 </div>
                 <div class="category-actions">
                     ${!['portrait', 'wedding', 'nature', 'lifestyle'].includes(cat.id) ? `
-                        <button class="category-btn delete" data-doc-id="${cat.docId}" data-id="${cat.id}">
+                        <button class="category-btn delete" data-id="${cat.id}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M3 6h18"/>
                                 <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
@@ -560,7 +568,6 @@ async function loadCategories() {
         // Delete category handlers
         categoriesList.querySelectorAll('.category-btn.delete').forEach(btn => {
             btn.addEventListener('click', async () => {
-                const docId = btn.dataset.docId;
                 const catId = btn.dataset.id;
                 const count = counts[catId] || 0;
 
@@ -573,7 +580,7 @@ async function loadCategories() {
                 if (confirm(`Delete category "${cat?.name}"?`)) {
                     showLoading(true);
                     try {
-                        await deleteCategoryFromDB(docId);
+                        await deleteCategoryFromDB(catId);
                         await loadCategories();
                         showToast('Category deleted', 'success');
                     } catch (error) {
@@ -593,36 +600,20 @@ async function loadCategories() {
    SETTINGS
    ================================ */
 function initSettings() {
-    const passwordForm = document.getElementById('password-form');
+    const resetPasswordBtn = document.getElementById('reset-password-btn');
     const clearAllBtn = document.getElementById('clear-all-btn');
 
-    // Change password (still local)
-    passwordForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    // Send password reset email
+    resetPasswordBtn.addEventListener('click', async () => {
+        if (!currentUser) return;
 
-        const currentPassword = document.getElementById('current-password').value;
-        const newPassword = document.getElementById('new-password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-        const storedPassword = localStorage.getItem(STORAGE_KEYS.PASSWORD);
-
-        if (currentPassword !== storedPassword) {
-            showToast('Current password is incorrect', 'error');
-            return;
+        try {
+            await sendPasswordResetEmail(auth, currentUser.email);
+            showToast('Password reset email sent!', 'success');
+        } catch (error) {
+            console.error('Password reset error:', error);
+            showToast('Error sending reset email', 'error');
         }
-
-        if (newPassword !== confirmPassword) {
-            showToast('New passwords do not match', 'error');
-            return;
-        }
-
-        if (newPassword.length < 6) {
-            showToast('Password must be at least 6 characters', 'error');
-            return;
-        }
-
-        localStorage.setItem(STORAGE_KEYS.PASSWORD, newPassword);
-        passwordForm.reset();
-        showToast('Password updated successfully', 'success');
     });
 
     // Clear all photos
